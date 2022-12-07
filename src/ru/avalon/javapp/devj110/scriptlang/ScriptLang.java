@@ -12,21 +12,27 @@ public class ScriptLang {
     public void readDataFile(String fileName) throws IOException {
         try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String s;
+            String[] buf;
             while(( s = br.readLine() ) != null) {// пока строчки не кончились
                 if (s.contains("#")){
                     s = s.substring(0, s.indexOf("#"));// отсекаем коммент
                 }
+                buf = s.split(" ");
+                if (buf[0].equals("set"))
+                    set(buf);
+                /*
                 if (s.contains("set")) {
                     set(s);
                 }
                 if (s.contains("print")) {
                     print(s);
                 }
+                 */
             }
         }
     }
 
-    private void set(String s) {
+    private void set(String[] s) {
         System.out.println("setting");
     }
 
