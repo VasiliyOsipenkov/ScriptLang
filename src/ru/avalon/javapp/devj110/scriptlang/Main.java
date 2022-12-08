@@ -8,7 +8,11 @@ public class Main {
         ScriptLang lang = new ScriptLang();
         try {
             lang.readDataFile(args[0]);
-        } catch (IOException e) {
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Specify the file in the program launch argument");
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
