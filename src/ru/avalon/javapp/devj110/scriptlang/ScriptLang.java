@@ -9,6 +9,7 @@ import java.util.Map;
 public class ScriptLang {
     private final Map<String, Integer> values = new HashMap<String, Integer>(); //хранилище переменных читаемых из файла
 
+
     public void readDataFile(String fileName) throws IOException {
         try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String s;
@@ -27,18 +28,27 @@ public class ScriptLang {
     }
 
     private void set(String[] s) {
-        if (s[1].contains("$") && s[2].equals("="))
-            try {
-                values.put(s[1],Integer.parseInt(s[3]));
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("dsf");
+        if (s.length < 4 || !s[2].equals("=") || !s[1].contains("$"))
+            throw new IllegalArgumentException("Incorrect input");
+        if (s.length == 4) {
+            if (s[3].contains("$")) {// добавить проверку на отсутствие переменной
+                values.put(s[1], values.get(s[3]));
+            } else {
+                values.put(s[1], Integer.parseInt(s[3]));
             }
-        System.out.println(values.get(s[1]));
-        /*
+        }
+        if (s.length > 4) {
+            for (int i = 3; i < s.length; i++) {
+
+            }
+
+        }
+            /*
         set $n1 = 21
         set $n2 = 121
         set $sum = $n1 + $n2 - 42
         */
+        System.out.println(values.get(s[1]));
     }
 
     private void print(String[] s) {
