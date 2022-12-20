@@ -13,7 +13,7 @@ public class Main {
             System.out.println("Specify the file in the program launch argument");
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("File read error");
         }
     }
 }
