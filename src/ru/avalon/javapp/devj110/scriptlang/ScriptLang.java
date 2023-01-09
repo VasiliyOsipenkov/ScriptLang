@@ -3,6 +3,7 @@ package ru.avalon.javapp.devj110.scriptlang;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,11 +18,11 @@ public class ScriptLang {
                 if (s.contains("#")){
                     s = s.substring(0, s.indexOf("#"));// отсекаем коммент
                 }
-                buf = s.split(" ");
+                buf = s.split(" ");//очень через опу
                 if (buf[0].equals("set"))
                     set(buf);
                 if (buf[0].equals("print"))
-                    print(buf);
+                    print(s);
             }
         }
     }
@@ -34,7 +35,6 @@ public class ScriptLang {
     }
 
     private void set(String[] s) {
-        int temp;//на всякий пожарный
         if (s.length < 4 || !s[2].equals("=") || !s[1].contains("$") || !(s.length%2 == 0))
             throw new IllegalArgumentException("Incorrect input");
         if (s.length == 4) {
@@ -56,8 +56,27 @@ public class ScriptLang {
         }
     }
 
-    private void print(String[] s) {
-        System.out.println("printing");
+    private void print(String s) {
+        s = s.substring(7);
+        String[] buf = s.split("[\".*\"]?,\\s[\".*\"]?");
+        for (int i = 0; i < buf.length; i++) {
+            if (values.containsKey(buf[i]))
+                buf[i] = Integer.toString(values.get(buf[i]));
+        }
+        /*
+        print "Hello, world!!!"
+        print "$sum = ", $n1, "+", $n2, "-42 = ", $sum
+
+        должно печататься
+
+        Hello, world!!!
+        $sum = 21+121-42 = 100
+        */
+
+        for (String v : buf) {
+            System.out.print(v);
+        }
+        System.out.println();
     }
     /*
 • оператор print печатает на экран заданный список строк и переменных; строки и переменные в списке разделяются запятыми; строки заключаются в двойные кавычки;
