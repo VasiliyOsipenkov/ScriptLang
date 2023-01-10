@@ -3,6 +3,7 @@ package ru.avalon.javapp.devj110.scriptlang;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,12 +58,24 @@ public class ScriptLang {
     }
 
     private void print(String s) {
-        s = s.substring(7);
-        String[] buf = s.split("[\".*\"]?,\\s[\".*\"]?");
-        for (int i = 0; i < buf.length; i++) {
-            if (values.containsKey(buf[i]))
-                buf[i] = Integer.toString(values.get(buf[i]));
+        s = s.substring(6);
+        char[] in = s.toCharArray();
+        int start = 0;
+        StringBuilder out = new StringBuilder();
+        ArrayList<Integer> commaId = new ArrayList<>();
+        ArrayList<Integer> quotesId = new ArrayList<>();
+
+        for (int i = 0; i < in.length; i++) {
+            if (in[i] == ',')
+                commaId.add(i);
+            if (in[i] == '"')
+                quotesId.add(i);
         }
+
+        for (int i = 0; i < commaId.size(); i++) {
+            
+        }
+
         /*
         print "Hello, world!!!"
         print "$sum = ", $n1, "+", $n2, "-42 = ", $sum
@@ -72,11 +85,6 @@ public class ScriptLang {
         Hello, world!!!
         $sum = 21+121-42 = 100
         */
-
-        for (String v : buf) {
-            System.out.print(v);
-        }
-        System.out.println();
     }
     /*
 • оператор print печатает на экран заданный список строк и переменных; строки и переменные в списке разделяются запятыми; строки заключаются в двойные кавычки;
