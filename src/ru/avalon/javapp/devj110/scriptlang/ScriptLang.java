@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 public class ScriptLang {
     private final Map<String, Integer> values = new HashMap<String, Integer>(); //хранилище переменных читаемых из файла
@@ -59,22 +60,29 @@ public class ScriptLang {
 
     private void print(String s) {
         s = s.substring(6);
-        char[] in = s.toCharArray();
-        int start = 0;
-        StringBuilder out = new StringBuilder();
-        ArrayList<Integer> commaId = new ArrayList<>();
-        ArrayList<Integer> quotesId = new ArrayList<>();
+        StringBuilder var = new StringBuilder();
 
-        for (int i = 0; i < in.length; i++) {
-            if (in[i] == ',')
-                commaId.add(i);
-            if (in[i] == '"')
-                quotesId.add(i);
+        for (String key : values.keySet()) {
+            String key1 = Matcher.quoteReplacement(key);
+            s = s.replaceAll(key1, Integer.toString(values.get(key)));
+
         }
 
-        for (int i = 0; i < commaId.size(); i++) {
-            
+        System.out.println(s);
+       /* String[] buf = s.split(", ");
+
+        for (int i = 0; i < s.length(); i++) {
+            if (values.containsKey(s.)) {
+                buf[i] = Integer.toString(values.get(buf[i]));
+            }
         }
+
+
+
+        for (String v : buf) {
+            System.out.print(v);
+        }
+        System.out.println();*/
 
         /*
         print "Hello, world!!!"
