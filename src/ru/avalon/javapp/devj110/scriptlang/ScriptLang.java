@@ -60,30 +60,24 @@ public class ScriptLang {
 
     private void print(String s) {
         s = s.substring(6);
-        StringBuilder var = new StringBuilder();
+        char[] input = s.toCharArray();
 
-        for (String key : values.keySet()) {
-            String key1 = Matcher.quoteReplacement(key);
-            s = s.replaceAll(key1, Integer.toString(values.get(key)));
+        if (input[0] != '"' && input[0] != '$')
+            throw new IllegalArgumentException("Incorrect declaration");
 
+        StringBuilder output = new StringBuilder();
+        ArrayList<Integer> quotes = new ArrayList<>();
+        ArrayList<Integer> shield = new ArrayList<>();
+        ArrayList<Integer> comma = new ArrayList<>();
+
+        for (int i = 0; i < input.length; i++) {
+            if (input[i] == '"')
+                quotes.add(i);
+            if (input[i] == ',')
+                comma.add(i);
         }
 
         System.out.println(s);
-       /* String[] buf = s.split(", ");
-
-        for (int i = 0; i < s.length(); i++) {
-            if (values.containsKey(s.)) {
-                buf[i] = Integer.toString(values.get(buf[i]));
-            }
-        }
-
-
-
-        for (String v : buf) {
-            System.out.print(v);
-        }
-        System.out.println();*/
-
         /*
         print "Hello, world!!!"
         print "$sum = ", $n1, "+", $n2, "-42 = ", $sum
